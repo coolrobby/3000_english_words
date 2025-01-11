@@ -14,11 +14,20 @@ task_dict = {task: idx for idx, task in enumerate(tasks)}
 
 # 在侧边栏显示超链接
 st.sidebar.title('Navigation')
-selected_task = st.sidebar.radio('Choose a Task', tasks)
 
-# 使用session_state来跟踪选中的任务
+# 为每个任务生成一个超链接
+for task in tasks:
+    task_idx = task_dict[task]
+    group_name = df.iloc[task_idx, 0]  # 获取对应组的名称
+    # 创建每个任务的超链接
+    st.sidebar.markdown(f"[{task}](#{group_name})")
+
+# 获取当前选择的任务
 if 'selected_task' not in st.session_state:
     st.session_state.selected_task = tasks[0]  # 默认选中第一个任务
+
+# 选择任务时更新selected_task
+selected_task = st.sidebar.radio('Choose a Task', tasks, index=tasks.index(st.session_state.selected_task))
 
 # 更新session_state中的selected_task
 st.session_state.selected_task = selected_task
@@ -32,4 +41,5 @@ group_data = grouped.get_group(group_name)
 st.title(f"Group: {group_name}")
 for index, row in group_data.iterrows():
     st.markdown(f"### {row[2]}")  # 第三列内容，作为<h2>
-    st.markdown(f"{row[3]}")      # 第四列内容，作为<p></p><hr>
+    st.markdown(f"{row[3]}")      # 第四列内容，作为<p>
+    st.markdown("<hr>")           # 在<p>后加上<hr>
