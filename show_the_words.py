@@ -8,7 +8,7 @@ output_dir = "output"
 os.makedirs(output_dir, exist_ok=True)
 
 # Streamlit 页面标题
-st.sidebar.title("专升本3000词")
+st.sidebar.title("Words2mp3")
 
 # 读取 Excel 文件
 def read_excel(file_path):
@@ -36,8 +36,10 @@ def display_group_content(file_path, selected_groups):
                     content += f"单词: {word}\n解释: {explanation}\n\n"
                     st.markdown(f"<h2>{word}</h2>", unsafe_allow_html=True)  # 显示单词
                     st.markdown(f"<p>{explanation}</p><hr>", unsafe_allow_html=True)  # 显示解释
+                
                 # 添加复制按钮
-                if st.button(f"复制 {group_name} 内容"):
+                copy_button = st.button(f"复制 {group_name} 内容")
+                if copy_button:
                     pyperclip.copy(content)  # 将内容复制到剪贴板
                     st.success(f"已复制 {group_name} 内容!")
 
@@ -72,4 +74,4 @@ if __name__ == "__main__":
 
 # 侧边栏底部反馈信息
 st.sidebar.markdown("---")
-st.sidebar.write("<p>Made by：川哥</p>", unsafe_allow_html=True)
+st.sidebar.write("<h2> 使用说明</h2><p>选择组后，可以点击显示每个组的内容，并复制到剪贴板。</p><p>Made by：川哥</p>", unsafe_allow_html=True)
